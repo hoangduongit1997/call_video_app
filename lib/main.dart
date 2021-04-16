@@ -44,56 +44,100 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPersistentFrameCallback((_) {
+      if (Platform.isAndroid) {
+        requestPermissions().whenComplete(() {
+          /// Lắng nghe sự kiện của StringeeClient(kết nối, cuộc gọi đến...)
+          _client.eventStreamController.stream.listen((event) {
+            Map<dynamic, dynamic> map = event;
+            switch (map['eventType']) {
+              case StringeeClientEvents.didConnect:
+                handleDidConnectEvent();
+                break;
+              case StringeeClientEvents.didDisconnect:
+                handleDiddisconnectEvent();
+                break;
+              case StringeeClientEvents.didFailWithError:
+                handleDidFailWithErrorEvent(
+                    map['body']['code'], map['body']['message']);
+                break;
+              case StringeeClientEvents.requestAccessToken:
+                handleRequestAccessTokenEvent();
+                break;
+              case StringeeClientEvents.didReceiveCustomMessage:
+                handleDidReceiveCustomMessageEvent(map['body']);
+                break;
+              case StringeeClientEvents.incomingCall:
+                StringeeCall call = map['body'];
+                handleIncomingCallEvent(call);
+                break;
+              case StringeeClientEvents.incomingCall2:
+                StringeeCall2 call = map['body'];
+                handleIncomingCall2Event(call);
+                break;
+              case StringeeClientEvents.didReceiveObjectChange:
+                StringeeObjectChange objectChange = map['body'];
+                print(objectChange.objectType.toString() +
+                    '\t' +
+                    objectChange.type.toString());
+                print(objectChange.objects.toString());
+                break;
+              default:
+                break;
+            }
+          });
 
-    if (Platform.isAndroid) {
-      requestPermissions();
-    }
+          /// Connect
+          _client.connect(token);
+        });
+      } else {
+        /// Lắng nghe sự kiện của StringeeClient(kết nối, cuộc gọi đến...)
+        _client.eventStreamController.stream.listen((event) {
+          Map<dynamic, dynamic> map = event;
+          switch (map['eventType']) {
+            case StringeeClientEvents.didConnect:
+              handleDidConnectEvent();
+              break;
+            case StringeeClientEvents.didDisconnect:
+              handleDiddisconnectEvent();
+              break;
+            case StringeeClientEvents.didFailWithError:
+              handleDidFailWithErrorEvent(
+                  map['body']['code'], map['body']['message']);
+              break;
+            case StringeeClientEvents.requestAccessToken:
+              handleRequestAccessTokenEvent();
+              break;
+            case StringeeClientEvents.didReceiveCustomMessage:
+              handleDidReceiveCustomMessageEvent(map['body']);
+              break;
+            case StringeeClientEvents.incomingCall:
+              StringeeCall call = map['body'];
+              handleIncomingCallEvent(call);
+              break;
+            case StringeeClientEvents.incomingCall2:
+              StringeeCall2 call = map['body'];
+              handleIncomingCall2Event(call);
+              break;
+            case StringeeClientEvents.didReceiveObjectChange:
+              StringeeObjectChange objectChange = map['body'];
+              print(objectChange.objectType.toString() +
+                  '\t' +
+                  objectChange.type.toString());
+              print(objectChange.objects.toString());
+              break;
+            default:
+              break;
+          }
+        });
 
-    /// Lắng nghe sự kiện của StringeeClient(kết nối, cuộc gọi đến...)
-    _client.eventStreamController.stream.listen((event) {
-      Map<dynamic, dynamic> map = event;
-      switch (map['eventType']) {
-        case StringeeClientEvents.didConnect:
-          handleDidConnectEvent();
-          break;
-        case StringeeClientEvents.didDisconnect:
-          handleDiddisconnectEvent();
-          break;
-        case StringeeClientEvents.didFailWithError:
-          handleDidFailWithErrorEvent(
-              map['body']['code'], map['body']['message']);
-          break;
-        case StringeeClientEvents.requestAccessToken:
-          handleRequestAccessTokenEvent();
-          break;
-        case StringeeClientEvents.didReceiveCustomMessage:
-          handleDidReceiveCustomMessageEvent(map['body']);
-          break;
-        case StringeeClientEvents.incomingCall:
-          StringeeCall call = map['body'];
-          handleIncomingCallEvent(call);
-          break;
-        case StringeeClientEvents.incomingCall2:
-          StringeeCall2 call = map['body'];
-          handleIncomingCall2Event(call);
-          break;
-        case StringeeClientEvents.didReceiveObjectChange:
-          StringeeObjectChange objectChange = map['body'];
-          print(objectChange.objectType.toString() +
-              '\t' +
-              objectChange.type.toString());
-          print(objectChange.objects.toString());
-          break;
-        default:
-          break;
+        /// Connect
+        _client.connect(token);
       }
     });
-
-    /// Connect
-    _client.connect(token);
   }
 
-  requestPermissions() async {
+  Future<void> requestPermissions() async {
     List<PermissionName> permissionNames = [];
     permissionNames.add(PermissionName.Camera);
     permissionNames.add(PermissionName.Contacts);
@@ -102,8 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
     permissionNames.add(PermissionName.Storage);
     permissionNames.add(PermissionName.State);
     permissionNames.add(PermissionName.Internet);
-    var permissions = await Permission.requestPermissions(permissionNames);
-    permissions.forEach((permission) {});
+    await Permission.requestPermissions(permissionNames);
   }
 
   @override
