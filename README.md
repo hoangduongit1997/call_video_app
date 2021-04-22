@@ -1,6 +1,6 @@
-# flutter_call_video
+# flutter_stringee_test
 
-A new Flutter project.
+Flutter Call Video App Using Stringee
 
 ## Getting Started
 

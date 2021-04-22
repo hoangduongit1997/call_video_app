@@ -1,4 +1,4 @@
-package com.example.flutter_call_video
+package com.example.flutter_stringee_test
 
 import io.flutter.embedding.android.FlutterActivity
 

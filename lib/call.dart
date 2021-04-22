@@ -103,7 +103,7 @@ class _CallState extends State<Call> {
                       new GestureDetector(
                         onTap: _rejectCallTapped,
                         child: Image.asset(
-                          'assets/images/end.png',
+                          'images/end.png',
                           height: 75.0,
                           width: 75.0,
                         ),
@@ -111,7 +111,7 @@ class _CallState extends State<Call> {
                       new GestureDetector(
                         onTap: _acceptCallTapped,
                         child: Image.asset(
-                          'assets/images/answer.png',
+                          'images/answer.png',
                           height: 75.0,
                           width: 75.0,
                         ),
@@ -133,7 +133,7 @@ class _CallState extends State<Call> {
                     child: new GestureDetector(
                       onTap: _endCallTapped,
                       child: Image.asset(
-                        'assets/images/end.png',
+                        'images/end.png',
                         height: 75.0,
                         width: 75.0,
                       ),
@@ -549,7 +549,7 @@ class _ButtonSwitchCameraState extends State<ButtonSwitchCamera> {
         child: new GestureDetector(
           onTap: _toggleSwitchCamera,
           child: Image.asset(
-            'assets/images/switch_camera.png',
+            'images/switch_camera.png',
             height: 30.0,
             width: 30.0,
           ),
@@ -608,9 +608,7 @@ class _ButtonSpeakerState extends State<ButtonSpeaker> {
     return new GestureDetector(
       onTap: _toggleSpeaker,
       child: Image.asset(
-        _isSpeaker
-            ? 'assets/images/ic_speaker_off.png'
-            : 'assets/images/ic_speaker_on.png',
+        _isSpeaker ? 'images/ic_speaker_off.png' : 'images/ic_speaker_on.png',
         height: 75.0,
         width: 75.0,
       ),
@@ -663,10 +661,11 @@ class _ButtonMicroState extends State<ButtonMicro> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return new GestureDetector(
       onTap: _toggleMicro,
       child: Image.asset(
-        _isMute ? 'assets/images/ic_mute.png' : 'assets/images/ic_mic.png',
+        _isMute ? 'images/ic_mute.png' : 'images/ic_mic.png',
         height: 75.0,
         width: 75.0,
       ),
@@ -723,9 +722,7 @@ class _ButtonVideoState extends State<ButtonVideo> {
     return new GestureDetector(
       onTap: widget.isVideoEnable ? _toggleVideo : null,
       child: Image.asset(
-        _isVideoEnable
-            ? 'assets/images/ic_video.png'
-            : 'assets/images/ic_video_off.png',
+        _isVideoEnable ? 'images/ic_video.png' : 'images/ic_video_off.png',
         height: 75.0,
         width: 75.0,
       ),
