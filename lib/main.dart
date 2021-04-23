@@ -36,7 +36,7 @@ Future<void> _backgroundMessageHandler(RemoteMessage remoteMessage) async {
   Map<dynamic, dynamic> _data = json.decode(_notiData['data']);
 
   const AndroidInitializationSettings androidSettings =
-      AndroidInitializationSettings('@drawable/ic_noti');
+      AndroidInitializationSettings('ic_noti');
   final IOSInitializationSettings iOSSettings = IOSInitializationSettings();
   final MacOSInitializationSettings macOSSettings =
       MacOSInitializationSettings();
